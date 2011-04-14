@@ -93,7 +93,7 @@
 // Called when the HTTP request fails.
 - (void)connection:(NSURLConnection *)aConnection didFailWithError:(NSError *)error {
     // Run completion handler
-    self.completionHandler(self.URLResponse, nil, error);
+    self.completionHandler(self.URLResponse, receivedData, error);
     [connection release];
     connection = nil;
     [receivedData release];
@@ -108,6 +108,35 @@
     connection = nil;
     [receivedData release];
     receivedData = nil;
+}
+
+// Called if the HTTP request receives an authentication challenge.
+- (void)connection:(NSURLConnection *)aConnection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    NSArray *trustedHosts = [[NSUserDefaults standardUserDefaults] arrayForKey:@"trustedHosts"];
+    
+    if ([challenge previousFailureCount] == 0) {
+        if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+            BOOL isTrustedHost = NO;
+            for (NSString *trustedHost in trustedHosts) {
+                if ([trustedHost isEqualToString:challenge.protectionSpace.host]) {
+                    isTrustedHost = YES;
+                    break;
+                }
+            }
+            if (isTrustedHost) {
+                [[challenge sender] useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+            }  else {
+                [[challenge sender] cancelAuthenticationChallenge:challenge];
+            }
+        } 
+    } else {
+        [[challenge sender] cancelAuthenticationChallenge:challenge];
+    }
+}
+
+
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
 }
 
 @end

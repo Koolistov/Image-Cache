@@ -59,15 +59,19 @@
     [activityIndicator removeFromSuperview];
 }
 
-- (id)kv_setImageAtURL:(NSURL *)anURL {
-    return [self kv_setImageAtURL:anURL showActivityIndicator:YES activityIndicatorStyle:UIActivityIndicatorViewStyleGray loadingImage:nil notAvailableImage:nil];
+- (id)kv_setImageAtURL:(NSURL *)imageURL {
+    return [self kv_setImageAtURL:imageURL showActivityIndicator:YES activityIndicatorStyle:UIActivityIndicatorViewStyleGray loadingImage:nil notAvailableImage:nil];
 }
 
-- (id)kv_setImageAtURL:(NSURL *)anURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage {
+- (id)kv_setImageAtURL:(NSURL *)imageURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage {
+    return [self kv_setImageAtURL:imageURL cacheURL:imageURL showActivityIndicator:showActivityIndicator activityIndicatorStyle:indicatorStyle loadingImage:loadingImage notAvailableImage:notAvailableImage];
+}
+
+- (id)kv_setImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage {
 
     self.image = loadingImage;
 
-    if (!anURL) {
+    if (!imageURL) {
         self.image = notAvailableImage;
         return nil;
     }
@@ -75,14 +79,15 @@
     if (showActivityIndicator)
         [self kv_showActivityIndicatorWithStyle:indicatorStyle];
 
-    KVDownload *imageDownload = [[KVImageCache defaultCache] loadImageAtURL:anURL withHandler:^(UIImage * image) {
-         if (!image) {
-             self.image = notAvailableImage;
-         } else {
-             self.image = image;
-         }
-         if (showActivityIndicator)
-             [self performSelectorOnMainThread:@selector(kv_hideActivityIndicator) withObject:nil waitUntilDone:NO];
+        KVDownload *imageDownload = [[KVImageCache defaultCache] loadImageAtURL:imageURL cacheURL:cacheURL withHandler:^(UIImage * image) {
+            if (!image) {
+                self.image = notAvailableImage;
+            } else {
+                self.image = image;
+            }
+            if (showActivityIndicator) {
+                [self performSelectorOnMainThread:@selector(kv_hideActivityIndicator) withObject:nil waitUntilDone:NO];
+            }
      }];
     
     return imageDownload;

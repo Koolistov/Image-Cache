@@ -42,7 +42,11 @@
 
 // Checks if the URL points to a local image, otherwise asynchronously downloads the image if needed
 // Call -cancel on the returned KVDownload instance if you need to cancel the download
-- (id)loadImageAtURL:(NSURL *)anURL withHandler:(void(^)(UIImage *image))handler;
+- (id)loadImageAtURL:(NSURL *)imageURL withHandler:(void(^)(UIImage *image))handler;
+
+// The image is loaded from imageURL, but will be cached under cacheURL. This allows coallescing
+// for example in cases where the imageURL contains changing parameters which don't affect the image to load.
+- (id)loadImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL withHandler:(void(^)(UIImage *image))handler;
 
 // Checks if the URL points to a local image, otherwise returns the image only if already available from cache
 - (UIImage *)cachedImageAtURL:(NSURL *)anURL;
