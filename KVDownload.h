@@ -31,16 +31,14 @@
 #import <Foundation/Foundation.h>
 
 @interface KVDownload : NSObject {
-    NSURLRequest *URLRequest;
-    void (^completionHandler)(NSURLResponse *response, NSData *data, NSError *error);
-    
+@private
     NSURLConnection *connection;
-    NSURLResponse *URLResponse;
     NSMutableData *receivedData;
 }
 
-@property (retain) NSURLRequest *URLRequest;
-@property (retain) NSURLResponse *URLResponse;
+@property (nonatomic, retain) NSURLRequest *URLRequest;
+@property (nonatomic, retain) NSURLResponse *URLResponse;
+@property (nonatomic, assign, readonly) float downloadProgress;
 
 @property (copy) void (^completionHandler)(NSURLResponse *response, NSData *data, NSError *error);
 
