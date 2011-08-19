@@ -8,8 +8,12 @@
 
 #import "ImageCacheTestViewController.h"
 
-@implementation ImageCacheTestViewController
+#import "KVImageCache.h"
+#import "UIImageView+URL.h"
 
+@implementation ImageCacheTestViewController
+@synthesize imageURL;
+@synthesize imageView;
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -30,6 +34,8 @@
 
 - (void)viewDidUnload
 {
+    [self setImageURL:nil];
+    [self setImageView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -39,6 +45,22 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (IBAction)emptyCache:(id)sender {
+    [[KVImageCache defaultCache] flush];
+}
+
+- (IBAction)loadImage:(id)sender {
+    [self.imageURL resignFirstResponder];
+    NSURL *URL = [NSURL URLWithString:self.imageURL.text];
+    [self.imageView kv_setImageAtURL:URL];
+}
+
+- (void)dealloc {
+    [imageURL release];
+    [imageView release];
+    [super dealloc];
 }
 
 @end

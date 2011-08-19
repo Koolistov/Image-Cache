@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImageCacheTestViewController : UIViewController
+@interface ImageCacheTestViewController : UIViewController {
+    UITextField *imageURL;
+    IBOutlet UIImageView *imageView;
+}
+
+@property (nonatomic, retain) IBOutlet UITextField *imageURL;
+@property (nonatomic, retain) IBOutlet UIImageView *imageView;
+
+- (IBAction)emptyCache:(id)sender;
+- (IBAction)loadImage:(id)sender;
 
 @end

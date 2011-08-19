@@ -16,6 +16,10 @@
 		C75C493913FE636600063F8B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C493713FE636600063F8B /* MainWindow.xib */; };
 		C75C493C13FE636600063F8B /* ImageCacheTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C75C493B13FE636600063F8B /* ImageCacheTestViewController.m */; };
 		C75C493F13FE636600063F8B /* ImageCacheTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C493D13FE636600063F8B /* ImageCacheTestViewController.xib */; };
+		C75C494B13FE658800063F8B /* KVDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = C75C494613FE658800063F8B /* KVDownload.m */; };
+		C75C494C13FE658800063F8B /* KVImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C75C494813FE658800063F8B /* KVImageCache.m */; };
+		C75C494D13FE658800063F8B /* UIImageView+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C75C494A13FE658800063F8B /* UIImageView+URL.m */; };
+		C75C495013FE678500063F8B /* SDURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C75C494F13FE678500063F8B /* SDURLCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,16 +27,24 @@
 		C75C492513FE636600063F8B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C75C492713FE636600063F8B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C75C492913FE636600063F8B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		C75C492D13FE636600063F8B /* ImageCacheTest-Info.plist */ = {isa = PBXFileReference; path = "ImageCacheTest-Info.plist"; sourceTree = "<group>"; };
+		C75C492D13FE636600063F8B /* ImageCacheTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ImageCacheTest-Info.plist"; sourceTree = "<group>"; };
 		C75C492F13FE636600063F8B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C75C493113FE636600063F8B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C75C493313FE636600063F8B /* ImageCacheTest-Prefix.pch */ = {isa = PBXFileReference; path = "ImageCacheTest-Prefix.pch"; sourceTree = "<group>"; };
-		C75C493413FE636600063F8B /* ImageCacheTestAppDelegate.h */ = {isa = PBXFileReference; path = ImageCacheTestAppDelegate.h; sourceTree = "<group>"; };
+		C75C493313FE636600063F8B /* ImageCacheTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImageCacheTest-Prefix.pch"; sourceTree = "<group>"; };
+		C75C493413FE636600063F8B /* ImageCacheTestAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCacheTestAppDelegate.h; sourceTree = "<group>"; };
 		C75C493513FE636600063F8B /* ImageCacheTestAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCacheTestAppDelegate.m; sourceTree = "<group>"; };
 		C75C493813FE636600063F8B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		C75C493A13FE636600063F8B /* ImageCacheTestViewController.h */ = {isa = PBXFileReference; path = ImageCacheTestViewController.h; sourceTree = "<group>"; };
+		C75C493A13FE636600063F8B /* ImageCacheTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCacheTestViewController.h; sourceTree = "<group>"; };
 		C75C493B13FE636600063F8B /* ImageCacheTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCacheTestViewController.m; sourceTree = "<group>"; };
 		C75C493E13FE636600063F8B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ImageCacheTestViewController.xib; sourceTree = "<group>"; };
+		C75C494513FE658800063F8B /* KVDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KVDownload.h; path = ../../KVDownload.h; sourceTree = "<group>"; };
+		C75C494613FE658800063F8B /* KVDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KVDownload.m; path = ../../KVDownload.m; sourceTree = "<group>"; };
+		C75C494713FE658800063F8B /* KVImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KVImageCache.h; path = ../../KVImageCache.h; sourceTree = "<group>"; };
+		C75C494813FE658800063F8B /* KVImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KVImageCache.m; path = ../../KVImageCache.m; sourceTree = "<group>"; };
+		C75C494913FE658800063F8B /* UIImageView+URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+URL.h"; path = "../../UIImageView+URL.h"; sourceTree = "<group>"; };
+		C75C494A13FE658800063F8B /* UIImageView+URL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+URL.m"; path = "../../UIImageView+URL.m"; sourceTree = "<group>"; };
+		C75C494E13FE678500063F8B /* SDURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDURLCache.h; sourceTree = "<group>"; };
+		C75C494F13FE678500063F8B /* SDURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDURLCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +91,14 @@
 		C75C492B13FE636600063F8B /* ImageCacheTest */ = {
 			isa = PBXGroup;
 			children = (
+				C75C494E13FE678500063F8B /* SDURLCache.h */,
+				C75C494F13FE678500063F8B /* SDURLCache.m */,
+				C75C494513FE658800063F8B /* KVDownload.h */,
+				C75C494613FE658800063F8B /* KVDownload.m */,
+				C75C494713FE658800063F8B /* KVImageCache.h */,
+				C75C494813FE658800063F8B /* KVImageCache.m */,
+				C75C494913FE658800063F8B /* UIImageView+URL.h */,
+				C75C494A13FE658800063F8B /* UIImageView+URL.m */,
 				C75C493413FE636600063F8B /* ImageCacheTestAppDelegate.h */,
 				C75C493513FE636600063F8B /* ImageCacheTestAppDelegate.m */,
 				C75C493713FE636600063F8B /* MainWindow.xib */,
@@ -167,6 +187,10 @@
 				C75C493213FE636600063F8B /* main.m in Sources */,
 				C75C493613FE636600063F8B /* ImageCacheTestAppDelegate.m in Sources */,
 				C75C493C13FE636600063F8B /* ImageCacheTestViewController.m in Sources */,
+				C75C494B13FE658800063F8B /* KVDownload.m in Sources */,
+				C75C494C13FE658800063F8B /* KVImageCache.m in Sources */,
+				C75C494D13FE658800063F8B /* UIImageView+URL.m in Sources */,
+				C75C495013FE678500063F8B /* SDURLCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,7 +239,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -232,7 +256,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
