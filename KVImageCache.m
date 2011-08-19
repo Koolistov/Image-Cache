@@ -37,37 +37,45 @@
 
 @property (retain) NSURLCache *imageURLCache;
 @property (retain) NSMutableDictionary *imagesLoading;
+@property (retain) NSMutableDictionary *downloadPerImageView;
 
 @end
-
-static KVImageCache * defaultCache = nil;
 
 @implementation KVImageCache
 
 @synthesize imageURLCache = imageURLCache_;
 @synthesize imagesLoading = imagesLoading_;
+@synthesize downloadPerImageView = downloadPerImageView_;
 
-+ (id)defaultCache {
-    @synchronized(self) {
-        if (defaultCache == nil) {
-            defaultCache = [[self alloc] init];
-            // Create cache with 1 MB memory and 10 MB disk capacity
-            // Using SDURLCache subclass which enables caching to disk
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-            NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"KVImageCache"];
-
-            NSURLCache *cache = [[SDURLCache alloc] initWithMemoryCapacity:1 * 1024 * 1024 diskCapacity:10 * 1024 * 1024 diskPath:diskCachePath];
-            defaultCache.imageURLCache = cache;
-            [cache release];
-
-            defaultCache.imagesLoading = [NSMutableDictionary dictionary];
-        }
-    }
-
++ (id)defaultCache  {
+    static dispatch_once_t pred;
+    static KVImageCache *defaultCache = nil;
+    
+    dispatch_once(&pred, ^{ defaultCache = [[self alloc] init]; });
     return defaultCache;
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        // Create cache with 1 MB memory and 10 MB disk capacity
+        // Using SDURLCache subclass which enables caching to disk
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"KVImageCache"];
+        
+        NSURLCache *cache = [[SDURLCache alloc] initWithMemoryCapacity:1 * 1024 * 1024 diskCapacity:10 * 1024 * 1024 diskPath:diskCachePath];
+        self.imageURLCache = cache;
+        [cache release];
+        
+        self.imagesLoading = [NSMutableDictionary dictionary];
+        self.downloadPerImageView = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
 - (void)dealloc {
+    self.imageURLCache = nil;
+    self.imagesLoading = nil;
     [super dealloc];
 }
 
@@ -77,6 +85,10 @@ static KVImageCache * defaultCache = nil;
 }
 
 - (id)loadImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL withHandler:(void (^)(UIImage * image))handler {
+    return [self loadImageAtURL:imageURL cacheURL:cacheURL imageView:nil withHandler:handler];
+}
+            
+- (id)loadImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL imageView:(UIImageView *)imageView withHandler:(void (^)(UIImage * image))handler {
     if (!imageURL) {
         handler(nil);
         return nil;
@@ -128,10 +140,25 @@ static KVImageCache * defaultCache = nil;
                     }
                     [self.imagesLoading removeObjectForKey:cacheURL];
                 }
+                
+                // UIImageView doesn't comply to NSCopying protocol, its pointer shouldn't change and is unique
+                NSString *key = [NSString stringWithFormat:@"%p", imageView];
+                [self.downloadPerImageView removeObjectForKey:key];
              }];
+            
+            // UIImageView doesn't comply to NSCopying protocol
+            NSString *key = [NSString stringWithFormat:@"%p", imageView];
+            [self.downloadPerImageView setObject:imageDownload forKey:key];
             return imageDownload;
         }
     }
+}
+
+- (void)cancelDownloadForImageView:(UIImageView *)imageView {
+    NSString *key = [NSString stringWithFormat:@"%p", imageView];
+    KVDownload *download = [self.downloadPerImageView objectForKey:key];
+    [download cancel];
+    [self.downloadPerImageView removeObjectForKey:key];
 }
 
 - (UIImage *)cachedImageAtURL:(NSURL *)cacheURL {
@@ -148,46 +175,6 @@ static KVImageCache * defaultCache = nil;
 
 - (void)flush {
     [self.imageURLCache removeAllCachedResponses];
-}
-
-#pragma mark - Singleton Pattern
-+ (id)allocWithZone:(NSZone *)zone {
-    @synchronized (self) {
-        if (defaultCache == nil) {
-            defaultCache = [super allocWithZone:zone];
-            return defaultCache;
-        }
-    }
-
-    return nil;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-    return self;
-}
-
-- (id)init {
-    if ([super init] == nil) {
-        return nil;
-    }
-
-    return self;
-}
-
-- (id)retain {
-    return self;
-}
-
-- (unsigned)retainCount {
-    return UINT_MAX;
-}
-
-- (void)release {
-    // Do nothing.
-}
-
-- (id)autorelease {
-    return self;
 }
 
 @end

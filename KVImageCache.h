@@ -48,6 +48,9 @@
 // for example in cases where the imageURL contains changing parameters which don't affect the image to load.
 - (id)loadImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL withHandler:(void(^)(UIImage *image))handler;
 
+- (id)loadImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL imageView:(UIImageView *)imageView withHandler:(void (^)(UIImage * image))handler;
+- (void)cancelDownloadForImageView:(UIImageView *)imageView;
+
 // Checks if the URL points to a local image, otherwise returns the image only if already available from cache
 - (UIImage *)cachedImageAtURL:(NSURL *)anURL;
 

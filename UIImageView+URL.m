@@ -59,38 +59,45 @@
     [activityIndicator removeFromSuperview];
 }
 
-- (id)kv_setImageAtURL:(NSURL *)imageURL {
-    return [self kv_setImageAtURL:imageURL showActivityIndicator:YES activityIndicatorStyle:UIActivityIndicatorViewStyleGray loadingImage:nil notAvailableImage:nil];
+- (void)kv_setImageAtURL:(NSURL *)imageURL {
+    [self kv_setImageAtURL:imageURL showActivityIndicator:YES activityIndicatorStyle:UIActivityIndicatorViewStyleGray loadingImage:nil notAvailableImage:nil];
 }
 
-- (id)kv_setImageAtURL:(NSURL *)imageURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage {
-    return [self kv_setImageAtURL:imageURL cacheURL:imageURL showActivityIndicator:showActivityIndicator activityIndicatorStyle:indicatorStyle loadingImage:loadingImage notAvailableImage:notAvailableImage];
+- (void)kv_setImageAtURL:(NSURL *)imageURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage {
+    [self kv_setImageAtURL:imageURL cacheURL:imageURL showActivityIndicator:showActivityIndicator activityIndicatorStyle:indicatorStyle loadingImage:loadingImage notAvailableImage:notAvailableImage];
 }
 
-- (id)kv_setImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage {
+- (void)kv_setImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage {
 
     self.image = loadingImage;
 
     if (!imageURL) {
         self.image = notAvailableImage;
-        return nil;
+        return;
     }
     
-    if (showActivityIndicator)
+    if (showActivityIndicator) {
         [self kv_showActivityIndicatorWithStyle:indicatorStyle];
-
-        KVDownload *imageDownload = [[KVImageCache defaultCache] loadImageAtURL:imageURL cacheURL:cacheURL withHandler:^(UIImage * image) {
-            if (!image) {
-                self.image = notAvailableImage;
-            } else {
-                self.image = image;
-            }
-            if (showActivityIndicator) {
-                [self performSelectorOnMainThread:@selector(kv_hideActivityIndicator) withObject:nil waitUntilDone:NO];
-            }
-     }];
+    }
     
-    return imageDownload;
+    // Cancel any previous downloads
+    [[KVImageCache defaultCache] cancelDownloadForImageView:self];
+    
+    [[KVImageCache defaultCache] loadImageAtURL:imageURL cacheURL:cacheURL imageView:self withHandler:^(UIImage * image) {
+        if (!image) {
+            self.image = notAvailableImage;
+        } else {
+            self.image = image;
+        }
+        if (showActivityIndicator) {
+            [self performSelectorOnMainThread:@selector(kv_hideActivityIndicator) withObject:nil waitUntilDone:NO];
+        }
+     }];
+}
+
+- (void)kv_cancelImageDownload {
+    [self kv_hideActivityIndicator];
+    [[KVImageCache defaultCache] cancelDownloadForImageView:self];
 }
 
 @end

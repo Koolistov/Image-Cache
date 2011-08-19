@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C75C492613FE636600063F8B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75C492513FE636600063F8B /* UIKit.framework */; };
+		C75C492813FE636600063F8B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75C492713FE636600063F8B /* Foundation.framework */; };
+		C75C492A13FE636600063F8B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75C492913FE636600063F8B /* CoreGraphics.framework */; };
+		C75C493013FE636600063F8B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C75C492E13FE636600063F8B /* InfoPlist.strings */; };
+		C75C493213FE636600063F8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C75C493113FE636600063F8B /* main.m */; };
+		C75C493613FE636600063F8B /* ImageCacheTestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C75C493513FE636600063F8B /* ImageCacheTestAppDelegate.m */; };
+		C75C493913FE636600063F8B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C493713FE636600063F8B /* MainWindow.xib */; };
+		C75C493C13FE636600063F8B /* ImageCacheTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C75C493B13FE636600063F8B /* ImageCacheTestViewController.m */; };
+		C75C493F13FE636600063F8B /* ImageCacheTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C493D13FE636600063F8B /* ImageCacheTestViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C75C492113FE636600063F8B /* ImageCacheTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageCacheTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C75C492513FE636600063F8B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C75C492713FE636600063F8B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C75C492913FE636600063F8B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C75C492D13FE636600063F8B /* ImageCacheTest-Info.plist */ = {isa = PBXFileReference; path = "ImageCacheTest-Info.plist"; sourceTree = "<group>"; };
+		C75C492F13FE636600063F8B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C75C493113FE636600063F8B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C75C493313FE636600063F8B /* ImageCacheTest-Prefix.pch */ = {isa = PBXFileReference; path = "ImageCacheTest-Prefix.pch"; sourceTree = "<group>"; };
+		C75C493413FE636600063F8B /* ImageCacheTestAppDelegate.h */ = {isa = PBXFileReference; path = ImageCacheTestAppDelegate.h; sourceTree = "<group>"; };
+		C75C493513FE636600063F8B /* ImageCacheTestAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCacheTestAppDelegate.m; sourceTree = "<group>"; };
+		C75C493813FE636600063F8B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		C75C493A13FE636600063F8B /* ImageCacheTestViewController.h */ = {isa = PBXFileReference; path = ImageCacheTestViewController.h; sourceTree = "<group>"; };
+		C75C493B13FE636600063F8B /* ImageCacheTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCacheTestViewController.m; sourceTree = "<group>"; };
+		C75C493E13FE636600063F8B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ImageCacheTestViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C75C491E13FE636600063F8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C75C492613FE636600063F8B /* UIKit.framework in Frameworks */,
+				C75C492813FE636600063F8B /* Foundation.framework in Frameworks */,
+				C75C492A13FE636600063F8B /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C75C491613FE636600063F8B = {
+			isa = PBXGroup;
+			children = (
+				C75C492B13FE636600063F8B /* ImageCacheTest */,
+				C75C492413FE636600063F8B /* Frameworks */,
+				C75C492213FE636600063F8B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C75C492213FE636600063F8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C75C492113FE636600063F8B /* ImageCacheTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C75C492413FE636600063F8B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C75C492513FE636600063F8B /* UIKit.framework */,
+				C75C492713FE636600063F8B /* Foundation.framework */,
+				C75C492913FE636600063F8B /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C75C492B13FE636600063F8B /* ImageCacheTest */ = {
+			isa = PBXGroup;
+			children = (
+				C75C493413FE636600063F8B /* ImageCacheTestAppDelegate.h */,
+				C75C493513FE636600063F8B /* ImageCacheTestAppDelegate.m */,
+				C75C493713FE636600063F8B /* MainWindow.xib */,
+				C75C493A13FE636600063F8B /* ImageCacheTestViewController.h */,
+				C75C493B13FE636600063F8B /* ImageCacheTestViewController.m */,
+				C75C493D13FE636600063F8B /* ImageCacheTestViewController.xib */,
+				C75C492C13FE636600063F8B /* Supporting Files */,
+			);
+			path = ImageCacheTest;
+			sourceTree = "<group>";
+		};
+		C75C492C13FE636600063F8B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C75C492D13FE636600063F8B /* ImageCacheTest-Info.plist */,
+				C75C492E13FE636600063F8B /* InfoPlist.strings */,
+				C75C493113FE636600063F8B /* main.m */,
+				C75C493313FE636600063F8B /* ImageCacheTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C75C492013FE636600063F8B /* ImageCacheTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C75C494213FE636600063F8B /* Build configuration list for PBXNativeTarget "ImageCacheTest" */;
+			buildPhases = (
+				C75C491D13FE636600063F8B /* Sources */,
+				C75C491E13FE636600063F8B /* Frameworks */,
+				C75C491F13FE636600063F8B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImageCacheTest;
+			productName = ImageCacheTest;
+			productReference = C75C492113FE636600063F8B /* ImageCacheTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C75C491813FE636600063F8B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = Koolistov;
+			};
+			buildConfigurationList = C75C491B13FE636600063F8B /* Build configuration list for PBXProject "ImageCacheTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C75C491613FE636600063F8B;
+			productRefGroup = C75C492213FE636600063F8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C75C492013FE636600063F8B /* ImageCacheTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C75C491F13FE636600063F8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C75C493013FE636600063F8B /* InfoPlist.strings in Resources */,
+				C75C493913FE636600063F8B /* MainWindow.xib in Resources */,
+				C75C493F13FE636600063F8B /* ImageCacheTestViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C75C491D13FE636600063F8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C75C493213FE636600063F8B /* main.m in Sources */,
+				C75C493613FE636600063F8B /* ImageCacheTestAppDelegate.m in Sources */,
+				C75C493C13FE636600063F8B /* ImageCacheTestViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C75C492E13FE636600063F8B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C75C492F13FE636600063F8B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C75C493713FE636600063F8B /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C75C493813FE636600063F8B /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		C75C493D13FE636600063F8B /* ImageCacheTestViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C75C493E13FE636600063F8B /* en */,
+			);
+			name = ImageCacheTestViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C75C494013FE636600063F8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C75C494113FE636600063F8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C75C494313FE636600063F8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImageCacheTest/ImageCacheTest-Prefix.pch";
+				INFOPLIST_FILE = "ImageCacheTest/ImageCacheTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C75C494413FE636600063F8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ImageCacheTest/ImageCacheTest-Prefix.pch";
+				INFOPLIST_FILE = "ImageCacheTest/ImageCacheTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C75C491B13FE636600063F8B /* Build configuration list for PBXProject "ImageCacheTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C75C494013FE636600063F8B /* Debug */,
+				C75C494113FE636600063F8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C75C494213FE636600063F8B /* Build configuration list for PBXNativeTarget "ImageCacheTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C75C494313FE636600063F8B /* Debug */,
+				C75C494413FE636600063F8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C75C491813FE636600063F8B /* Project object */;
+}

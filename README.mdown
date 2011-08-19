@@ -5,7 +5,7 @@ The classes in this repository make it easy to download images asynchronously in
 
 REQUIREMENTS
 ------------
-Blocks are used extensively so you need to be targetting at least iOS 4.0. To use these classes you need to have [SDURLCache](https://github.com/rs/SDURLCache) present as well.
+Blocks are used extensively so you need to be targetting at least iOS 4.0. Class extensions are also used, so you need to use the LLVM Compiler. To use these classes you need to have [SDURLCache](https://github.com/rs/SDURLCache) present as well.
 
 USAGE
 -----
@@ -15,6 +15,10 @@ This simplest usage is to pass an NSURL instance to any UIImageView instance:
     [myImageView kv_setImageAtURL:anImageURL];
 
 Use `-kv_setImageAtURL:showActivityIndicator:activityIndicatorStyle:loadingImage:notAvailableImage:` if you want to for example show a local image instead if the URL returned a 404.
+
+If you need to remove the UIImageView instance from screen, call `-kv_cancelImageDownload` first so that images are not downloaded needlessly. Your instance is also retained whilst the download is active. If you fail to send the cancel message to your UIImageView instance, it will stay in memory until the download has completed. 
+
+    [myImageView kv_cancelImageDownload];
 
 For more advanced usage, use KVImageCache directly:
 
