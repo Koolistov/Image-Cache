@@ -35,13 +35,11 @@
 
 // Asynchronously downloads the image at the URL if needed, whilst showing a gray activity indicator.
 // No image is shown during the download, and none is shown if no valid image could be loaded.
-// Call -cancel on the returned KVDownload instance if you need to cancel the download.
-// You then also need to hide the activity indicator using -kv_hideActivityIndicator.
+// Call -kv_cancelImageDownload if you need to cancel the download.
 - (void)kv_setImageAtURL:(NSURL *)imageURL;
 
 // Asynchronously downloads the image at the URL if needed.
-// Call -cancel on the returned KVDownload instance if you need to cancel the download.
-// You may also need to hide the activity indicator using -kv_hideActivityIndicator.
+// Call -kv_cancelImageDownload if you need to cancel the download.
 - (void)kv_setImageAtURL:(NSURL *)imageURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage;
 
 // The image is loaded from imageURL, but will be cached under cacheURL. This allows coallescing
