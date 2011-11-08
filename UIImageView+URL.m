@@ -38,6 +38,9 @@
 @implementation UIImageView (URL)
 
 - (void)kv_showActivityIndicatorWithStyle:(UIActivityIndicatorViewStyle)indicatorStyle {
+    // Ensure we don't get multiple spinners
+    [[self viewWithTag:kActivityIndicatorTag] removeFromSuperview];
+    
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
 
     activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -68,7 +71,11 @@
 }
 
 - (void)kv_setImageAtURL:(NSURL *)imageURL cacheURL:(NSURL *)cacheURL showActivityIndicator:(BOOL)showActivityIndicator activityIndicatorStyle:(UIActivityIndicatorViewStyle)indicatorStyle loadingImage:(UIImage *)loadingImage notAvailableImage:(UIImage *)notAvailableImage {
-
+    NSAssert([NSThread isMainThread], @"This method should be called from the main thread.");
+    // Cancel any previous downloads
+    [[KVImageCache defaultCache] cancelDownloadForImageView:self];    
+    [self kv_hideActivityIndicator];
+    
     self.image = loadingImage;
 
     if (!imageURL) {
@@ -79,9 +86,6 @@
     if (showActivityIndicator) {
         [self kv_showActivityIndicatorWithStyle:indicatorStyle];
     }
-    
-    // Cancel any previous downloads
-    [[KVImageCache defaultCache] cancelDownloadForImageView:self];
     
     [[KVImageCache defaultCache] loadImageAtURL:imageURL cacheURL:cacheURL imageView:self withHandler:^(UIImage * image) {
         if (!image) {
@@ -96,6 +100,7 @@
 }
 
 - (void)kv_cancelImageDownload {
+    NSAssert([NSThread isMainThread], @"This method should be called from the main thread.");
     [self kv_hideActivityIndicator];
     [[KVImageCache defaultCache] cancelDownloadForImageView:self];
 }

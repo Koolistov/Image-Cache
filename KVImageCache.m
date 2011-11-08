@@ -31,11 +31,9 @@
 #import "KVImageCache.h"
 
 #import "KVDownload.h"
-#import "SDURLCache.h"
 
 @interface KVImageCache ()
 
-@property (retain) NSURLCache *imageURLCache;
 @property (retain) NSMutableDictionary *imagesLoading;
 @property (retain) NSMutableDictionary *downloadPerImageView;
 
@@ -46,6 +44,7 @@
 @synthesize imageURLCache = imageURLCache_;
 @synthesize imagesLoading = imagesLoading_;
 @synthesize downloadPerImageView = downloadPerImageView_;
+@synthesize shouldCheckForLocalImages=shouldCheckForLocalImages_;
 
 + (id)defaultCache  {
     static dispatch_once_t pred;
@@ -63,12 +62,13 @@
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
         NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"KVImageCache"];
         
-        NSURLCache *cache = [[SDURLCache alloc] initWithMemoryCapacity:1 * 1024 * 1024 diskCapacity:10 * 1024 * 1024 diskPath:diskCachePath];
+        NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:1 * 1024 * 1024 diskCapacity:10 * 1024 * 1024 diskPath:diskCachePath];
         self.imageURLCache = cache;
         [cache release];
         
         self.imagesLoading = [NSMutableDictionary dictionary];
         self.downloadPerImageView = [NSMutableDictionary dictionary];
+        self.shouldCheckForLocalImages = NO;
     }
     return self;
 }
@@ -94,10 +94,13 @@
         return nil;
     }
 
-    UIImage *localImage = [UIImage imageNamed:[imageURL absoluteString]];
-    if (localImage) {
-        handler(localImage);
-        return nil;
+    // Check if a local image is referenced
+    if (self.shouldCheckForLocalImages) {
+        UIImage *localImage = [UIImage imageNamed:[imageURL absoluteString]];
+        if (localImage) {
+            handler(localImage);
+            return nil;
+        }
     }
 
     NSURLRequest *cacheRequest = [NSURLRequest requestWithURL:cacheURL];
@@ -109,46 +112,46 @@
         handler(image);
         return nil;
     } else {
-        NSMutableArray *pendingHandlers = [self.imagesLoading objectForKey:cacheURL];
+        NSMutableDictionary *pendingHandlers = [self.imagesLoading objectForKey:cacheURL];
+        // UIImageView doesn't comply to NSCopying protocol, its pointer shouldn't change and is unique
+        NSString *key = [NSString stringWithFormat:@"%p", imageView];
         if (pendingHandlers) {
-            [pendingHandlers addObject:[[handler copy] autorelease]];
+            [pendingHandlers setObject:[[handler copy] autorelease] forKey:key];
             return nil;
         } else {
-            pendingHandlers = [NSMutableArray arrayWithObject:[[handler copy] autorelease]];
+            pendingHandlers = [NSMutableDictionary dictionaryWithObject:[[handler copy] autorelease] forKey:key];
             [self.imagesLoading setObject:pendingHandlers forKey:cacheURL];
 
             KVDownload *imageDownload = [KVDownload startDownloadWithRequest:downloadRequest completionHandler:^(NSURLResponse * receivedResponse, NSData * data, NSError * error) {
                 if (!data || [data length] == 0) {
                     // If no data, return nil image
-                    NSMutableArray *pendingHandlers = [self.imagesLoading objectForKey:cacheURL];
-                    for (void (^handler)(UIImage * image) in pendingHandlers) {
+                    NSMutableDictionary *pendingHandlers = [self.imagesLoading objectForKey:cacheURL];
+                    for (void (^handler)(UIImage * image) in [pendingHandlers allValues]) {
                         handler (nil);
                     }
                     [self.imagesLoading removeObjectForKey:cacheURL];
                 } else {
-                    // Store data in cache
-                    NSCachedURLResponse *cachedResponse = [[NSCachedURLResponse alloc] initWithResponse:receivedResponse data:data];
-                    [self.imageURLCache storeCachedResponse:cachedResponse forRequest:cacheRequest];
-                    [cachedResponse release];
-                    
                     // Return image
                     UIImage *image = [UIImage imageWithData:data];
                     
-                    NSMutableArray *pendingHandlers = [self.imagesLoading objectForKey:cacheURL];
-                    for (void (^handler)(UIImage * image) in pendingHandlers) {
+                    if (image) {
+                        // Store data in cache
+                        NSCachedURLResponse *cachedResponse = [[NSCachedURLResponse alloc] initWithResponse:receivedResponse data:data];
+                        [self.imageURLCache storeCachedResponse:cachedResponse forRequest:cacheRequest];
+                        [cachedResponse release];
+                    }
+                    
+                    NSMutableDictionary *pendingHandlers = [self.imagesLoading objectForKey:cacheURL];
+                    for (void (^handler)(UIImage * image) in [pendingHandlers allValues]) {
                         handler (image);
                     }
                     [self.imagesLoading removeObjectForKey:cacheURL];
                 }
                 
-                // UIImageView doesn't comply to NSCopying protocol, its pointer shouldn't change and is unique
-                NSString *key = [NSString stringWithFormat:@"%p", imageView];
                 [self.downloadPerImageView removeObjectForKey:key];
              }];
             
-            // UIImageView doesn't comply to NSCopying protocol
-            NSString *key = [NSString stringWithFormat:@"%p", imageView];
-            [self.downloadPerImageView setObject:imageDownload forKey:key];
+            [self.downloadPerImageView setObject:[NSDictionary dictionaryWithObjectsAndKeys:imageDownload, @"download", cacheURL, @"cacheURL", nil] forKey:key];
             return imageDownload;
         }
     }
@@ -156,16 +159,35 @@
 
 - (void)cancelDownloadForImageView:(UIImageView *)imageView {
     NSString *key = [NSString stringWithFormat:@"%p", imageView];
-    KVDownload *download = [self.downloadPerImageView objectForKey:key];
-    [download cancel];
-    [self.downloadPerImageView removeObjectForKey:key];
+    NSDictionary *downloadDict = [self.downloadPerImageView objectForKey:key];
+    if (downloadDict) {
+        NSURL *cacheURL = [downloadDict objectForKey:@"cacheURL"];
+        
+        // Check if there are other pendingHandlers for this URL
+        NSMutableDictionary *pendingHandlers = [self.imagesLoading objectForKey:cacheURL];
+        
+        // Remove handler for this imageView
+        [pendingHandlers removeObjectForKey:key];
+        
+        // Cancel download only if no more pending handlers remain
+        if ([pendingHandlers count] == 0) {
+            KVDownload *download = [downloadDict objectForKey:@"download"];
+            [download cancel];
+            [self.imagesLoading removeObjectForKey:cacheURL];
+        }
+        
+        [self.downloadPerImageView removeObjectForKey:key];
+    }
 }
 
 - (UIImage *)cachedImageAtURL:(NSURL *)cacheURL {
-    UIImage *localImage = [UIImage imageNamed:[cacheURL absoluteString]];
-
-    if (localImage) {
-        return localImage;
+    // Check if a local image is referenced
+    if (self.shouldCheckForLocalImages) {
+        UIImage *localImage = [UIImage imageNamed:[cacheURL absoluteString]];
+        
+        if (localImage) {
+            return localImage;
+        }
     }
 
     NSURLRequest *request = [NSURLRequest requestWithURL:cacheURL];
