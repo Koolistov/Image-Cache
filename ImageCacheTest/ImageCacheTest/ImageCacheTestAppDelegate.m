@@ -10,6 +10,9 @@
 
 #import "ImageCacheTestViewController.h"
 
+#import "SDURLCache.h"
+#import "KVImageCache.h"
+
 @implementation ImageCacheTestAppDelegate
 
 @synthesize window = _window;
@@ -21,6 +24,16 @@
      
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    
+    // Create cache with 1 MB memory and 10 MB disk capacity
+    // Using SDURLCache subclass which enables caching to disk
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *diskCachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"KVImageCache"];
+    
+    SDURLCache *cache = [[SDURLCache alloc] initWithMemoryCapacity:1 * 1024 * 1024 diskCapacity:10 * 1024 * 1024 diskPath:diskCachePath];
+    [KVImageCache defaultCache].imageURLCache = cache;
+    [cache release];
+    
     return YES;
 }
 

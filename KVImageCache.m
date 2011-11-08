@@ -46,7 +46,7 @@
 @synthesize downloadPerImageView = downloadPerImageView_;
 @synthesize shouldCheckForLocalImages=shouldCheckForLocalImages_;
 
-+ (id)defaultCache  {
++ (KVImageCache *)defaultCache  {
     static dispatch_once_t pred;
     static KVImageCache *defaultCache = nil;
     

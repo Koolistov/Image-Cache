@@ -36,7 +36,7 @@
 
 @interface KVImageCache : NSObject 
 
-+ (id)defaultCache;
++ (KVImageCache *)defaultCache;
 
 // Allows referring to images included in the app's bundle (passing the absolute URL to the -[UIImage imageNamed:] method). Note however that enabling this takes a performance hit. Defaults to NO.
 @property (assign) BOOL shouldCheckForLocalImages;

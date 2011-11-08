@@ -147,6 +147,7 @@
 		C75C491813FE636600063F8B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = Koolistov;
 			};
 			buildConfigurationList = C75C491B13FE636600063F8B /* Build configuration list for PBXProject "ImageCacheTest" */;
@@ -308,6 +309,7 @@
 				C75C494413FE636600063F8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
