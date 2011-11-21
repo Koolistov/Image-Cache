@@ -159,7 +159,7 @@
 
 - (void)cancelDownloadForImageView:(UIImageView *)imageView {
     NSString *key = [NSString stringWithFormat:@"%p", imageView];
-    NSDictionary *downloadDict = [self.downloadPerImageView objectForKey:key];
+    NSDictionary *downloadDict = [[[self.downloadPerImageView objectForKey:key] retain] autorelease];
     if (downloadDict) {
         NSURL *cacheURL = [downloadDict objectForKey:@"cacheURL"];
         

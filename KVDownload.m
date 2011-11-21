@@ -34,6 +34,9 @@
 
 @property (nonatomic, assign, readwrite) float downloadProgress;
 
+@property (retain) NSURLConnection *connection;
+@property (retain) NSMutableData *receivedData;
+
 @end
 
 @implementation KVDownload
@@ -42,6 +45,8 @@
 @synthesize URLResponse = URLResponse_;
 @synthesize completionHandler = completionHandler_;
 @synthesize downloadProgress = downloadProgress_;
+@synthesize connection = connection_;
+@synthesize receivedData = receivedData_;
 
 + (id)startDownloadWithRequest:(NSURLRequest *)anURLRequest completionHandler:(void (^)(NSURLResponse * response, NSData * data, NSError * error))completionHandler {
     KVDownload *download = [[[self class] alloc] init];
@@ -57,29 +62,29 @@
     self.URLRequest = nil;
     self.URLResponse = nil;
     self.completionHandler = nil;
-    [connection release], connection = nil;
-    [receivedData release], receivedData = nil;
+    self.connection = nil;
+    self.receivedData = nil;
     [super dealloc];
 }
 
 #pragma mark - Main
 - (BOOL)cancel {
-    if (!connection) {
+    if (!self.connection) {
         return NO;
     }
-    [connection cancel];
+    [self.connection cancel];
     self.completionHandler(nil, nil, nil);
     
-    [connection release], connection = nil;
+    self.connection = nil;
     
     return YES;
 }
 
 - (void)send {
     // Create the connection
-    connection = [[NSURLConnection alloc] initWithRequest:self.URLRequest delegate:self];
-    if (connection) {
-        receivedData = [[NSMutableData alloc] init];
+    self.connection = [[[NSURLConnection alloc] initWithRequest:self.URLRequest delegate:self] autorelease];
+    if (self.connection) {
+        self.receivedData = [NSMutableData data];
     } else {
         NSError *error = [NSError errorWithDomain:@"KVDownload" code:1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Could not create connection", NSLocalizedDescriptionKey, nil]];
         
@@ -92,17 +97,17 @@
 // Called when the HTTP socket gets a response.
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response {
     self.URLResponse = response;
-    [receivedData setLength:0];
+    [self.receivedData setLength:0];
 }
 
 // Called when the HTTP socket received data.
 - (void)connection:(NSURLConnection *)aConnection didReceiveData:(NSData *)value {
-    [receivedData appendData:value];
+    [self.receivedData appendData:value];
     
     if ([self.URLResponse isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *response = (NSHTTPURLResponse *)self.URLResponse;
         if ([response statusCode] == 200) {
-            self.downloadProgress = ([receivedData length] / [response expectedContentLength]);
+            self.downloadProgress = ([self.receivedData length] / [response expectedContentLength]);
         } else {
             self.downloadProgress = -1.0f;
         }
@@ -114,17 +119,17 @@
 // Called when the HTTP request fails.
 - (void)connection:(NSURLConnection *)aConnection didFailWithError:(NSError *)error {
     // Run completion handler
-    self.completionHandler(self.URLResponse, receivedData, error);
-    [connection release], connection = nil;
-    [receivedData release], receivedData = nil;
+    self.completionHandler(self.URLResponse, self.receivedData, error);
+    self.connection = nil;
+    self.receivedData = nil;
 }
 
 // Called when the connection has finished loading.
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConnection {
     // Run completion handler
-    self.completionHandler(self.URLResponse, receivedData, nil);
-    [connection release], connection = nil;
-    [receivedData release], receivedData = nil;
+    self.completionHandler(self.URLResponse, self.receivedData, nil);
+    self.connection = nil;
+    self.receivedData = nil;
 }
 
 // Called if the HTTP request receives an authentication challenge.

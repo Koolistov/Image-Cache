@@ -30,11 +30,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KVDownload : NSObject {
-@private
-    NSURLConnection *connection;
-    NSMutableData *receivedData;
-}
+@interface KVDownload : NSObject
 
 @property (nonatomic, retain) NSURLRequest *URLRequest;
 @property (nonatomic, retain) NSURLResponse *URLResponse;
